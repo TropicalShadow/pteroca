@@ -18,6 +18,7 @@ use App\Core\Service\Crud\PanelCrudService;
 use App\Core\Service\Product\NestEggsCacheService;
 use App\Core\Service\Pterodactyl\PterodactylApplicationService;
 use App\Core\Service\Pterodactyl\PterodactylRedirectService;
+use App\Core\Service\Mailer\AdminServerCreationEmailService;
 use App\Core\Service\Server\AdminServerCreationService;
 use App\Core\Service\Server\DeleteServerService;
 use App\Core\Service\Server\UpdateServerService;
@@ -75,6 +76,7 @@ class ServerProductCrudController extends AbstractPanelController
         private readonly UserRepository $userRepository,
         private readonly ProductRepository $productRepository,
         private readonly AdminServerCreationService $adminServerCreationService,
+        private readonly AdminServerCreationEmailService $adminServerCreationEmailService,
     ) {
         parent::__construct($panelCrudService, $requestStack);
     }
@@ -153,6 +155,13 @@ class ServerProductCrudController extends AbstractPanelController
                 ->setFormTypeOption('mapped', false)
                 ->hideWhenUpdating(),
 
+            BooleanField::new('sendCreationEmail', $this->translator->trans('pteroca.admin.server_create.send_creation_email'))
+                ->onlyOnForms()
+                ->setColumns(12)
+                ->setHelp($this->translator->trans('pteroca.admin.server_create.send_creation_email_help'))
+                ->setFormTypeOptions(['mapped' => false, 'data' => true])
+                ->hideWhenUpdating(),
+
             IdField::new('server.id')
                 ->hideOnForm()
                 ->setColumns(3),
@@ -201,7 +210,7 @@ class ServerProductCrudController extends AbstractPanelController
             TextField::new('name', $this->translator->trans('pteroca.crud.product.build_name'))
                 ->setColumns(7),
             FormField::addRow(),
-            AssociationField::new('originalProduct', $this->translator->trans('pteroca.crud.product.original_product'))
+            AssociationField::new('originalProduct', $this->translator->trans('pteroca.crud.server_product.original_product'))
                 ->setColumns(7)
                 ->setDisabled()
                 ->hideWhenCreating(),
@@ -389,7 +398,9 @@ class ServerProductCrudController extends AbstractPanelController
 
             $startingEggId = $this->extractStartingEggId($formData);
 
-            $this->adminServerCreationService->createServerForUser(
+            $isFreeServer = isset($formData['freeServer']) && $formData['freeServer'];
+
+            $server = $this->adminServerCreationService->createServerForUser(
                 user: $user,
                 serverProduct: $serverProduct,
                 serverName: $formData['newServerName'] ?? 'New Server',
@@ -397,9 +408,16 @@ class ServerProductCrudController extends AbstractPanelController
                 autoRenewal: isset($formData['newServerAutoRenewal']) && $formData['newServerAutoRenewal'],
                 isSuspended: isset($formData['newServerIsSuspended']) && $formData['newServerIsSuspended'],
                 eggId: $startingEggId,
-                freeServer: isset($formData['freeServer']) && $formData['freeServer'],
+                freeServer: $isFreeServer,
                 createdByAdmin: $this->getUser()
             );
+
+            $shouldNotify = isset($formData['sendCreationEmail']) && $formData['sendCreationEmail'];
+            if ($shouldNotify) {
+                $this->adminServerCreationEmailService->sendAdminServerCreationEmail(
+                    $user, $server, $serverProduct, $isFreeServer
+                );
+            }
 
             $this->addFlash('success', $this->translator->trans(
                 'pteroca.admin.server_create.success',

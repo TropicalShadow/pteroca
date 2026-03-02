@@ -41,6 +41,7 @@ use App\Core\Event\Cart\CartConfigurePageAccessedEvent;
 use App\Core\Event\Payment\PaymentGatewaysCollectedEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Core\Service\Product\LocationService;
+use App\Core\Service\Server\ServerUserVariableService;
 
 class CartController extends AbstractController
 {
@@ -54,6 +55,7 @@ class CartController extends AbstractController
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly LocationService $locationService,
+        private readonly ServerUserVariableService $serverUserVariableService,
     ) {}
 
     #[Route('/cart/topup', name: 'cart_topup', methods: ['GET', 'POST'])]
@@ -68,6 +70,19 @@ class CartController extends AbstractController
         $this->denyAccessUnlessGranted(PermissionEnum::ACCESS_WALLET->value);
 
         $currency = $settingService->getSetting(SettingEnum::CURRENCY_NAME->value);
+        $minAmount = (float) ($settingService
+            ->getSetting(SettingEnum::MINIMUM_TOPUP_AMOUNT->value) ?? '1.00');
+
+        if ($request->query->has('amount')) {
+            $requestedAmount = (float) $request->query->get('amount');
+            if ($requestedAmount < $minAmount) {
+                $this->addFlash('danger', $this->translator->trans(
+                    'pteroca.recharge.amount_below_minimum',
+                    ['%minimum%' => sprintf('%.2f %s', $minAmount, $currency)]
+                ));
+                return $this->redirectToRoute('panel', ['routeName' => 'recharge_balance']);
+            }
+        }
 
         $context = $this->buildMinimalEventContext($request);
         $gatewaysEvent = new PaymentGatewaysCollectedEvent($gatewayManager, $context);
@@ -245,6 +260,25 @@ class CartController extends AbstractController
             [$product->getId(), $preparedEggs, $hasSlotPrices]
         );
 
+        $userRequiredVariablesByEgg = [];
+        try {
+            $eggsConfig = json_decode($product->getEggsConfiguration() ?? '{}', true, 512, JSON_THROW_ON_ERROR);
+            foreach ($eggsConfig as $eggId => $eggConfig) {
+                foreach ($eggConfig['variables'] ?? [] as $varId => $varConfig) {
+                    if (!empty($varConfig['user_required']) && !empty($varConfig['env_variable'])) {
+                        $userRequiredVariablesByEgg[$eggId][] = [
+                            'env_variable'  => $varConfig['env_variable'],
+                            'name'          => $varConfig['name'] ?? $varConfig['env_variable'],
+                            'description'   => $varConfig['description'] ?? '',
+                            'rules'         => $varConfig['rules'] ?? '',
+                            'default_value' => $varConfig['value'] ?? '',
+                        ];
+                    }
+                }
+            }
+        } catch (\JsonException) {
+        }
+
         $viewData = [
             'product' => $product,
             'eggs' => $preparedEggs,
@@ -260,6 +294,7 @@ class CartController extends AbstractController
             'allowAutoRenewal' => $product->getAllowAutoRenewal(),
             'allowLocationSelection' => $product->getAllowUserSelectLocation(),
             'groupedLocations' => $groupedLocations,
+            'userRequiredVariablesByEgg' => $userRequiredVariablesByEgg,
         ];
 
         return $this->renderWithEvent(ViewNameEnum::CART_CONFIGURE, 'panel/cart/configure.html.twig', $viewData, $request);
@@ -328,6 +363,11 @@ class CartController extends AbstractController
             $autoRenewal = $formData['auto-renewal'] ?? false;
             $slots = $formData['slots'] ?? null;
             $voucher = $formData['voucher'] ?? '';
+            $userVariables = $this->serverUserVariableService->extractAndValidate(
+                $request->request->all('user_variables'),
+                $product,
+                $eggId
+            );
 
             $selectedNodeId = null;
             if ($product->getAllowUserSelectLocation() && isset($formData['node'])) {
@@ -354,7 +394,7 @@ class CartController extends AbstractController
             );
             $result = null;
             $this->entityManager->wrapInTransaction(function() use (
-                $product, $eggId, $priceId, $serverName, $autoRenewal, $slots, $voucher, $selectedNodeId, $createServerService, &$result
+                $product, $eggId, $priceId, $serverName, $autoRenewal, $slots, $voucher, $selectedNodeId, $userVariables, $createServerService, &$result
             ) {
                 $lockedUser = $this->userRepository->findOneByIdWithLock($this->getUser()->getId());
 
@@ -379,7 +419,8 @@ class CartController extends AbstractController
                     $lockedUser,
                     $voucher,
                     $slots,
-                    $selectedNodeId
+                    $selectedNodeId,
+                    $userVariables
                 );
             });
 
