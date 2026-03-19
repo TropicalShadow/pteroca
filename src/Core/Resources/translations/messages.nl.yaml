@@ -14,6 +14,7 @@ pteroca:
     back: 'Terug naar paneel'
     email_not_verified: 'Uw e-mailadres is nog niet geverifieerd. Controleer uw postvak in.'
     pterodactyl_error: 'Fout tijdens het verbinden met de Pterodactyl API.'
+    pterodactyl_account_not_synchronized: 'Uw account is niet goed gesynchroniseerd met het gamespaneel. Sommige functies werken mogelijk niet correct. Neem contact op met de beheerder.'
     dont_have_permission: 'U bent niet bevoegd om deze functie te gebruiken.'
     experimental_feature: 'Deze functie is experimenteel en werkt mogelijk niet correct.'
     or_resend_verification_email: 'of klik hier om de verificatie-e-mail opnieuw te verzenden.'
@@ -246,6 +247,8 @@ pteroca:
     discount_hint: 'Korting toegepast op de totale prijs'
     product_order_details: 'Productdetails en besteloptie'
     total: Totaal
+    setup_fee: 'Installatiekosten'
+    includes_setup_fee: 'Inclusief %setupFee% %currency% eenmalige installatiekosten'
     slot: slot
     slots: Slots
     processing: Verwerken...
@@ -260,6 +263,7 @@ pteroca:
     not_enough_funds: 'Je hebt niet genoeg saldo op je account.'
     successful_purchase: 'De server is met succes aangekocht.'
     error_during_creating_server: 'Fout tijdens het aanmaken van de server'
+    pterodactyl_account_not_synchronized: 'Uw account is niet gesynchroniseerd met het gamespaneel. Neem contact op met de beheerder om dit probleem op te lossen voordat u een server bestelt.'
     no_categories: 'Er zijn nog geen categorieën.'
     no_products: 'Er zijn nog geen producten.'
     price_not_found: 'Prijs niet gevonden'
@@ -385,6 +389,8 @@ pteroca:
     data_updated_successfully: 'Gegevens zijn succesvol bijgewerkt.'
     data_update_error: 'Fout opgetreden tijdens het bijwerken van de gegevens.'
     server_name_required: 'Servernaam is vereist.'
+    server_name_too_long: 'De servernaam mag niet meer dan {{ limit }} tekens bevatten.'
+    enter_server_name: 'Servernaam invoeren'
     are_you_sure: 'Weet u zeker dat u dit wilt doen?'
     suspended_expired_hint: 'Deze server is op {{ expireDate }} opgeschort omdat deze niet is verlengd. Om de server te herstellen, verlengt u deze in het configuratie tabblad.'
     suspended_hint: 'Deze server is opgeschort.'
@@ -405,6 +411,7 @@ pteroca:
     data_validation_error: 'Fout tijdens validatie. Controleer of aan alle regels is voldaan.'
     enable_auto_renewal: 'Schakel automatische verlenging in voor deze server'
     auto_renewal_tooltip: 'Indien ingeschakeld, wordt de server automatisch verlengd voor de geselecteerde periode. De betaling wordt gedaan vanaf uw rekening.'
+    connection_error: 'Kan geen verbinding maken met het gamespaneel. Probeer het later opnieuw of neem contact op met de beheerder.'
     backups: Back-ups
     network: Netwerk
     no_backups: 'Er zijn nog geen back-ups voor deze server.'
@@ -707,6 +714,8 @@ pteroca:
     description: 'Configureer uw server en ga door naar betaling'
     user_required_variables_title: 'Vereiste Configuratie'
     user_required_variables_description: 'Geef de vereiste waarden voor de geselecteerde serversoftware'
+    setup_fee: 'Installatiekosten'
+    setup_fee_one_time: 'eenmalig'
   cart_topup:
     title: 'Vul je account aan'
     order: Bestellen
@@ -841,6 +850,8 @@ pteroca:
       price_dynamic_only_one_plan: 'U kunt slechts één prijs instellen voor een dynamisch plan.'
       price_slot_plan: 'Slotplan prijs'
       price_slot_plan_hint: 'Prijs per slot. Koppel na het instellen de variabele voor maximale spelers in Productverbindingen voor elk egg.'
+      setup_fee: 'Installatiekosten'
+      setup_fee_hint: 'Eenmalige installatiekosten die alleen bij de eerste aankoop worden berekend. Laat leeg om uit te schakelen. Deze kosten worden niet beïnvloed door voucherkortingen.'
       period: Periode
       unit: Eenheid
       days: Dagen
@@ -992,6 +1003,11 @@ pteroca:
       warning: Waarschuwing
       cancel: Annuleren
       close: Sluiten
+      version_mismatch_title: 'Versiecompatibiliteitswaarschuwing'
+      version_mismatch_message: 'Deze plugin is gebouwd voor PteroCA <strong>%plugin_version%</strong>, maar u gebruikt PteroCA <strong>%current_version%</strong>. Er kunnen ingrijpende wijzigingen zijn aangebracht tussen deze versies die de pluginfunctionaliteit kunnen beïnvloeden.'
+      version_mismatch_risk: 'Het inschakelen van deze plugin is op eigen risico. Het kan fouten of onverwacht gedrag veroorzaken.'
+      enable_anyway: 'Toch inschakelen'
+      version_mismatch_upload_skipped: 'Plugin "%s" v%s is succesvol geüpload, maar automatisch inschakelen is overgeslagen vanwege een versiecompatibiliteitsmismatch. Schakel het handmatig in via de pluginlijst nadat u de compatibiliteitswaarschuwing hebt bekeken.'
     theme:
       theme_management_description: "Beheer en configureer thema's voor verschillende contexten"
       appearance_settings: Weergave-instellingen
@@ -1129,7 +1145,9 @@ pteroca:
       email_theme:
         help: 'Thema voor e-mail sjablonen. Beheert de styling van meldingen, registratie en aankoop e-mails.'
       hints:
-        site_logo: "Aangepast logo voor dashboard en loginpagina's. Upload PNG, JPG of SVG. Standaard indien leeg."
+        site_logo: "Standaardlogo voor het paneel (admin dashboard, loginpagina's). Wordt ook gebruikt als terugval voor landingspagina en e-mails als hun specifieke logo's niet zijn ingesteld. Upload PNG, JPG of SVG."
+        site_landing_logo: 'Aangepast logo voor de landingspagina. Upload PNG, JPG of SVG. Valt terug op het paneellogo als dit leeg is.'
+        site_email_logo: 'Aangepast logo voor e-mails. Upload PNG, JPG of SVG. Valt terug op het paneellogo als dit leeg is.'
         site_url: 'Basis-URL van paneel (bijv. https://panel.example.com). Gebruikt in e-mails, SSO en redirects.'
         site_title: 'Paneelnaam weergegeven in browsertabs, koppen en e-mails. Uw merk zichtbaar voor iedereen.'
         site_locale: 'Standaardtaal voor interface. Beïnvloedt alle menu-items, labels en systeemberichten.'
@@ -1184,6 +1202,8 @@ pteroca:
         telemetry_consent: "Sta het verzenden van anonieme gebruiksgegevens toe om PteroCA te helpen verbeteren. Alleen installatiegebeurtenissen en fouten worden bijgehouden. Er worden geen persoonlijke gegevens, API-sleutels of URL's verzameld."
         custom_head_scripts_landing: 'Aangepaste HTML/JavaScript-code geïnjecteerd in de <head>-sectie van de landingspagina. Gebruik dit voor analytics (Google Analytics, Meta Pixel), aangepaste lettertypen of trackingscripts. WAARSCHUWING: Voeg alleen scripts van vertrouwde bronnen toe om XSS-aanvallen te voorkomen.'
         custom_head_scripts_panel: 'Aangepaste HTML/JavaScript-code geïnjecteerd in de <head>-sectie van het paneel (dashboard, admin). Gebruik dit voor interne analytics, monitoringtools of aangepaste integraties. WAARSCHUWING: Voeg alleen scripts van vertrouwde bronnen toe om XSS-aanvallen te voorkomen.'
+        avatar_max_size: 'Maximale bestandsgrootte voor het uploaden van gebruikersavatars (bijv. 2M, 500K, 5M). Gebruikt het Symfony-grootteformaat.'
+        avatar_allowed_extensions: 'Toegestane MIME-typen voor avatar-uploads, gescheiden door komma''s (bijv. image/jpeg, image/png, image/webp).'
         panel_theme: "Thema voor gebruikerspaneel (dashboard, servers, winkel). Beheert de look van alle admin- en user-facing pagina's."
         landing_theme: 'Thema voor landingspagina (homepage voor bezoekers). Weergegeven aan niet-ingelogde gebruikers op de publieke site.'
         email_theme: 'Thema voor e-mail sjablonen. Beheert de styling van meldingen, registratie en aankoop e-mails.'
@@ -1471,6 +1491,9 @@ pteroca:
       not_found: 'Voucher niet gevonden.'
       expired: 'Voucher is verlopen.'
       successfully_applied: 'Voucher succesvol toegepast.'
+      successfully_applied_balance_topup: 'Voucher toegepast! Uw account is opgewaardeerd met %amount% %currency%. Nieuw saldo: %newBalance% %currency%.'
+      successfully_applied_server_discount: 'Voucher toegepast! %value%% korting wordt toegepast op uw serveraankoop.'
+      successfully_applied_payment_discount: 'Voucher toegepast! %value%% korting wordt toegepast op uw betaling.'
       max_global_uses_reached: 'Maximaal aantal globale gebruiken bereikt.'
       already_used: 'Voucher is al gebruikt.'
       only_for_new_accounts: 'Voucher is alleen voor nieuwe accounts.'
@@ -2003,6 +2026,18 @@ pteroca:
         twig_dynamic_include: 'Dynamische include met variabele gedetecteerd'
         dangerous_file: 'Uitvoerbaar bestand gedetecteerd'
         invalid_asset_type: 'Ongebruikelijk asset-bestandstype gedetecteerd'
+  license:
+    file_blacklisted: "Dit bestand is op de zwarte lijst gezet: %reason%"
+    invalid_license: "Licentieverificatie mislukt: %error%"
+    license_required: "Deze plugin vereist een licentiesleutel. Voer deze in de plugin-instellingen in voordat u hem inschakelt."
+    theme_license_required: "Dit thema vereist een licentiesleutel. Voer deze in de thema-instellingen in voordat u hem activeert."
+    api_unavailable_warning: "Marketplace-licentie-API is momenteel niet beschikbaar. Doorgaan zonder licentieverificatie."
+    theme_blacklisted: "Dit thema is op de zwarte lijst gezet en kan niet worden geactiveerd: %reason%"
+    license_key_label: "Licentiesleutel"
+    license_key_placeholder: "XXXX-XXXX-XXXX-XXXX"
+    license_key_hint: "Voer de licentiesleutel in van uw aankoop op marketplace.pteroca.com"
+    cron_plugin_disabled: "Plugin %name% is automatisch uitgeschakeld: licentieverificatie mislukt (%error%)."
+    cron_theme_reset: "Thema %name% is gedeactiveerd: licentieverificatie mislukt (%error%)."
   marketplace:
 
     browser_title: Marketplace

@@ -14,6 +14,7 @@ pteroca:
     back: 'Volver al panel'
     email_not_verified: 'Tu dirección de correo electrónico aún no ha sido verificada. Revisa tu bandeja de entrada.'
     pterodactyl_error: 'Se produjo un error al comunicarse con el panel de Pterodactyl.'
+    pterodactyl_account_not_synchronized: 'Tu cuenta no está correctamente sincronizada con el panel del servidor de juegos. Algunas funciones pueden no funcionar correctamente. Por favor, contacta al administrador.'
     dont_have_permission: 'No tienes permiso para realizar esta acción.'
     experimental_feature: 'Esta función es experimental y puede no funcionar correctamente.'
     or_resend_verification_email: 'o haz clic aquí para reenviar el correo de verificación.'
@@ -246,6 +247,8 @@ pteroca:
     discount_hint: 'El descuento se aplicará solo al primer ciclo de facturación.'
     product_order_details: 'Detalles del producto y opciones de pedido'
     total: Total
+    setup_fee: 'Tarifa de configuración'
+    includes_setup_fee: 'Incluye %setupFee% %currency% de tarifa de configuración única'
     slot: slot
     slots: Slots
     processing: Procesando...
@@ -260,6 +263,7 @@ pteroca:
     not_enough_funds: 'No tienes suficientes fondos en tu cuenta.'
     successful_purchase: 'El servidor se ha comprado con éxito.'
     error_during_creating_server: 'Error al crear el servidor'
+    pterodactyl_account_not_synchronized: 'Tu cuenta no está sincronizada con el panel del servidor de juegos. Por favor, contacta al administrador para resolver este problema antes de ordenar un servidor.'
     no_categories: 'Aún no se han añadido categorías a la tienda.'
     no_products: 'No hay productos en esta categoría.'
     price_not_found: 'No se encontró el precio'
@@ -304,6 +308,8 @@ pteroca:
     description: 'Configura tu servidor y procede con el pago'
     user_required_variables_title: 'Configuración Requerida'
     user_required_variables_description: 'Proporcione los valores requeridos para el software de servidor seleccionado'
+    setup_fee: 'Tarifa de configuración'
+    setup_fee_one_time: 'única'
   cart_topup:
     title: 'Recarga tu cuenta'
     order: Ordenar
@@ -414,6 +420,8 @@ pteroca:
     data_updated_successfully: 'Los datos se han actualizado correctamente.'
     data_update_error: 'Se produjo un error al actualizar los datos.'
     server_name_required: 'Se requiere el nombre del servidor.'
+    server_name_too_long: 'El nombre del servidor no puede superar {{ limit }} caracteres.'
+    enter_server_name: 'Ingresar nombre del servidor'
     are_you_sure: '¿Estás seguro de que quieres hacer esto?'
     suspended_expired_hint: 'Este servidor ha sido suspendido el {{ expireDate }} porque no se ha renovado. Para restaurar el servidor, renuévelo en la pestaña de configuración.'
     suspended_hint: 'Este servidor ha sido suspendido.'
@@ -434,6 +442,7 @@ pteroca:
     data_validation_error: 'Error durante la validación. Por favor, verifica si se cumplen todas las reglas.'
     enable_auto_renewal: 'Habilitar renovación automática para este servidor'
     auto_renewal_tooltip: 'Si está habilitado, el servidor se renovará automáticamente para el período seleccionado. El pago se realizará desde el saldo de su cuenta.'
+    connection_error: 'No se puede conectar al panel del servidor de juegos. Por favor, inténtalo más tarde o contacta al administrador.'
     no_backups: 'No hay copias de seguridad para este servidor todavía.'
     create_backup: 'Crear copia de seguridad'
     backup_name: 'Nombre de la copia de seguridad'
@@ -839,6 +848,8 @@ pteroca:
       price_dynamic_only_one_plan: 'Solo puedes establecer un plan de precio dinámico.'
       price_slot_plan: 'Precio del plan por slot'
       price_slot_plan_hint: 'Precio por slot. Después de configurarlo, vincule la variable para jugadores máximos en Conexiones de producto para cada egg.'
+      setup_fee: 'Tarifa de configuración'
+      setup_fee_hint: 'Tarifa de configuración única cobrada solo en la primera compra. Dejar vacío para desactivar. Esta tarifa no está afectada por descuentos de cupones.'
       period: Período
       unit: Unidad
       days: Días
@@ -992,6 +1003,11 @@ pteroca:
       warning: Advertencia
       cancel: Cancelar
       close: Cerrar
+      version_mismatch_title: 'Advertencia de Compatibilidad de Versiones'
+      version_mismatch_message: 'Este complemento fue creado para PteroCA <strong>%plugin_version%</strong>, pero estás utilizando PteroCA <strong>%current_version%</strong>. Es posible que se hayan introducido cambios incompatibles entre estas versiones que podrían afectar la funcionalidad del complemento.'
+      version_mismatch_risk: 'Habilitar este complemento es bajo tu propio riesgo. Puede causar errores o comportamiento inesperado.'
+      enable_anyway: 'Habilitar de todas formas'
+      version_mismatch_upload_skipped: 'El complemento "%s" v%s se subió correctamente, pero la habilitación automática se omitió debido a una incompatibilidad de versiones. Por favor, habilítelo manualmente desde la lista de complementos después de revisar la advertencia de compatibilidad.'
     theme:
       theme_management_description: 'Gestionar y configurar temas para diferentes contextos'
       appearance_settings: 'Configuración de apariencia'
@@ -1129,7 +1145,9 @@ pteroca:
       email_theme:
         help: 'Tema para plantillas de email. Controla el estilo de notificaciones, registro y emails de compra.'
       hints:
-        site_logo: 'Logo personalizado para panel y páginas de inicio. Suba PNG, JPG o SVG. Predeterminado si vacío.'
+        site_logo: 'Logo predeterminado del panel (panel de administración, páginas de inicio de sesión). También se usa como respaldo para la página de destino y emails si sus logos específicos no están configurados. Suba PNG, JPG o SVG.'
+        site_landing_logo: 'Logo personalizado para la página de destino. Suba PNG, JPG o SVG. Usa el logo del panel si está vacío.'
+        site_email_logo: 'Logo personalizado para los correos electrónicos. Suba PNG, JPG o SVG. Usa el logo del panel si está vacío.'
         site_url: 'URL base del panel (ej. https://panel.example.com). Usado en emails, SSO y redirecciones.'
         site_title: 'Nombre del panel mostrado en pestañas navegador, encabezados y emails. Su marca visible para todos.'
         site_locale: 'Idioma predeterminado de la interfaz. Afecta todos los menús, etiquetas y mensajes del sistema.'
@@ -1184,6 +1202,8 @@ pteroca:
         telemetry_consent: 'Permitir el envío de datos de uso anónimos para ayudar a mejorar PteroCA. Solo se rastrean eventos de instalación y errores. No se recopilan datos personales, claves API o URLs.'
         custom_head_scripts_landing: 'Código HTML/JavaScript personalizado inyectado en la sección <head> de la página de inicio. Utilícelo para análisis (Google Analytics, Meta Pixel), fuentes personalizadas o scripts de rastreo. ADVERTENCIA: Solo agregue scripts de fuentes confiables para evitar ataques XSS.'
         custom_head_scripts_panel: 'Código HTML/JavaScript personalizado inyectado en la sección <head> del panel (dashboard, admin). Utilícelo para análisis internos, herramientas de monitoreo o integraciones personalizadas. ADVERTENCIA: Solo agregue scripts de fuentes confiables para evitar ataques XSS.'
+        avatar_max_size: 'Tamaño máximo de archivo para la carga de avatares de usuario (p.ej., 2M, 500K, 5M). Utiliza el formato de tamaño de Symfony.'
+        avatar_allowed_extensions: 'Tipos MIME permitidos para la carga de avatares, separados por comas (p.ej., image/jpeg, image/png, image/webp).'
         panel_theme: 'Tema para el panel de usuario (dashboard, servidores, tienda). Controla la apariencia de todas las páginas de admin y usuario.'
         landing_theme: 'Tema para la página de destino (página de inicio para visitantes). Mostrada a usuarios no registrados en el sitio público.'
         email_theme: 'Tema para plantillas de email. Controla el estilo de notificaciones, registro y emails de compra.'
@@ -1471,6 +1491,9 @@ pteroca:
       not_found: 'Cupón no encontrado.'
       expired: 'El cupón ha expirado.'
       successfully_applied: 'Cupón aplicado con éxito.'
+      successfully_applied_balance_topup: 'Cupón aplicado! Su cuenta ha sido recargada con %amount% %currency%. Nuevo saldo: %newBalance% %currency%.'
+      successfully_applied_server_discount: 'Cupón aplicado! Se aplicará un descuento del %value%% a la compra de su servidor.'
+      successfully_applied_payment_discount: 'Cupón aplicado! Se aplicará un descuento del %value%% a su pago.'
       max_global_uses_reached: 'Se ha alcanzado el número máximo de usos globales.'
       already_used: 'El cupón ya ha sido utilizado.'
       only_for_new_accounts: 'El cupón es solo para cuentas nuevas.'
@@ -2003,6 +2026,18 @@ pteroca:
         twig_dynamic_include: 'Include dinámico con variable detectado'
         dangerous_file: 'Archivo ejecutable detectado'
         invalid_asset_type: 'Tipo de archivo de asset inusual detectado'
+  license:
+    file_blacklisted: "Este archivo ha sido puesto en la lista negra: %reason%"
+    invalid_license: "Verificación de licencia fallida: %error%"
+    license_required: "Este complemento requiere una clave de licencia. Por favor, ingrésela en la configuración del complemento antes de habilitarlo."
+    theme_license_required: "Este tema requiere una clave de licencia. Por favor, ingrésela en la configuración del tema antes de activarlo."
+    api_unavailable_warning: "La API de licencias del marketplace no está disponible actualmente. Procediendo sin verificación de licencia."
+    theme_blacklisted: "Este tema ha sido puesto en la lista negra y no puede activarse: %reason%"
+    license_key_label: "Clave de Licencia"
+    license_key_placeholder: "XXXX-XXXX-XXXX-XXXX"
+    license_key_hint: "Ingrese la clave de licencia de su compra en marketplace.pteroca.com"
+    cron_plugin_disabled: "El complemento %name% ha sido deshabilitado automáticamente: verificación de licencia fallida (%error%)."
+    cron_theme_reset: "El tema %name% ha sido desactivado: verificación de licencia fallida (%error%)."
   marketplace:
     browser_title: Marketplace
     free: Gratis

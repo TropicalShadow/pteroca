@@ -14,6 +14,7 @@ pteroca:
     back: 返回面板
     email_not_verified: 您的电子邮件地址尚未验证。请检查您的收件箱。
     pterodactyl_error: '与 Pterodactyl 面板通信时发生错误。'
+    pterodactyl_account_not_synchronized: '您的账户未与游戏服务器面板正确同步。某些功能可能无法正常工作。请联系管理员。'
     dont_have_permission: 您没有权限执行此操作。
     experimental_feature: 此功能为实验性功能，可能无法正常工作。
     or_resend_verification_email: 或点击此处重新发送验证邮件。
@@ -246,6 +247,8 @@ pteroca:
     discount_hint: 仅适用于第一个账单周期。
     product_order_details: 产品详情和订购选项
     total: 总计
+    setup_fee: '安装费'
+    includes_setup_fee: '包含 %setupFee% %currency% 一次性安装费'
     slot: 插槽
     slots: 插槽数
     processing: 处理中...
@@ -260,6 +263,7 @@ pteroca:
     not_enough_funds: 您的账户余额不足。
     successful_purchase: 服务器购买成功。
     error_during_creating_server: 创建服务器时出错
+    pterodactyl_account_not_synchronized: '您的账户未与游戏服务器面板同步。在订购服务器之前，请联系管理员解决此问题。'
     no_categories: 商店中尚未添加任何类别。
     no_products: 该类别中没有产品。
     price_not_found: 找不到价格
@@ -304,6 +308,8 @@ pteroca:
     description: 配置您的服务器并进行支付
     user_required_variables_title: '必需配置'
     user_required_variables_description: '请为选定的服务器软件提供必需的值'
+    setup_fee: '安装费'
+    setup_fee_one_time: '一次性'
   cart_topup:
     title: 充值你的账户
     order: 订单
@@ -414,6 +420,8 @@ pteroca:
     data_updated_successfully: 数据已成功更新。
     data_update_error: 更新数据时出错。
     server_name_required: 服务器名称是必需的。
+    server_name_too_long: '服务器名称不能超过 {{ limit }} 个字符。'
+    enter_server_name: '输入服务器名称'
     are_you_sure: 你确定要这样做吗？
     suspended_expired_hint: '由于未续订，此服务器已于 {{ expireDate }} 被暂停。要恢复服务器，请在配置选项卡中续订。'
     suspended_hint: 此服务器已被暂停。
@@ -432,6 +440,7 @@ pteroca:
     suspended_expired_description: '此服务器因于 %expireDate% 到期且未续订而被暂停。要恢复服务器，请续订它。'
     enable_auto_renewal: 启用此服务器的自动续费
     auto_renewal_tooltip: 如果启用，服务器将根据选定的周期自动续费。付款将从您的账户余额中扣除。
+    connection_error: '无法连接到游戏服务器面板。请稍后重试或联系管理员。'
     rules: 规则
     data_validation_error: 验证过程中出错。请检查是否满足所有规则。
     no_backups: 此服务器尚无备份。
@@ -839,6 +848,8 @@ pteroca:
       price_dynamic_only_one_plan: 仅可设置一个动态价格方案。
       price_slot_plan: 插槽计划价格
       price_slot_plan_hint: '每个插槽的价格。设置后，请在每个 Egg 的产品连接中链接用于最大玩家数的变量。'
+      setup_fee: '安装费'
+      setup_fee_hint: '仅在首次购买时收取的一次性安装费。留空以禁用。此费用不受优惠券折扣影响。'
       period: 周期
       unit: 单位
       days: 天
@@ -992,6 +1003,11 @@ pteroca:
       warning: 警告
       cancel: 取消
       close: 关闭
+      version_mismatch_title: '版本兼容性警告'
+      version_mismatch_message: '此插件是为PteroCA <strong>%plugin_version%</strong>构建的，但您当前运行的是PteroCA <strong>%current_version%</strong>。这些版本之间可能引入了破坏性更改，可能会影响插件功能。'
+      version_mismatch_risk: '启用此插件风险自负。可能会导致错误或意外行为。'
+      enable_anyway: '仍然启用'
+      version_mismatch_upload_skipped: '插件 "%s" v%s 已成功上传，但由于版本兼容性不匹配，自动启用已被跳过。请在查看兼容性警告后，从插件列表手动启用它。'
     theme:
       panel_themes: 面板主题
       landing_themes: 着陆页主题
@@ -1132,7 +1148,9 @@ pteroca:
       email_theme:
         help: 电子邮件模板的主题。控制通知、注册和购买电子邮件的样式。
       hints:
-        site_logo: 仪表板和登录页的自定义标志。上传PNG、JPG或SVG。为空时使用默认值。
+        site_logo: 面板的默认标志（管理仪表板、登录页面）。当着陆页和邮件未设置专用标志时，也用作后备标志。上传PNG、JPG或SVG。
+        site_landing_logo: '着陆页的自定义标志。上传PNG、JPG或SVG。如果为空，则使用面板标志。'
+        site_email_logo: '电子邮件的自定义标志。上传PNG、JPG或SVG。如果为空，则使用面板标志。'
         site_url: '面板的基础URL（如https://panel.example.com）。用于邮件、SSO和重定向。'
         site_title: 浏览器标签、标题和邮件中显示的面板名称。所有用户可见的品牌。
         site_locale: 界面的默认语言。影响所有菜单项、标签和系统消息。
@@ -1187,6 +1205,8 @@ pteroca:
         telemetry_consent: '允许发送匿名使用数据以帮助改进 PteroCA。仅跟踪安装事件和错误。不收集个人数据、API 密钥或 URL。'
         custom_head_scripts_landing: '注入到登录页面 <head> 部分的自定义 HTML/JavaScript 代码。用于分析（Google Analytics、Meta Pixel）、自定义字体或跟踪脚本。警告：仅添加来自可信源的脚本以防止 XSS 攻击。'
         custom_head_scripts_panel: '注入到面板（仪表盘、管理）<head> 部分的自定义 HTML/JavaScript 代码。用于内部分析、监控工具或自定义集成。警告：仅添加来自可信源的脚本以防止 XSS 攻击。'
+        avatar_max_size: '用户头像上传的最大文件大小（例如 2M、500K、5M）。使用 Symfony 大小格式。'
+        avatar_allowed_extensions: '头像上传允许的 MIME 类型，以逗号分隔（例如 image/jpeg、image/png、image/webp）。'
         panel_theme: 用户面板的主题（仪表盘、服务器、商店）。控制所有管理员和面向用户的页面的外观。
         landing_theme: 登录页面的主题（访客的主页）。显示给未登录用户在公共站点上。
         email_theme: 电子邮件模板的主题。控制通知、注册和购买电子邮件的样式。
@@ -1491,6 +1511,9 @@ pteroca:
       not_found: 未找到代金券。
       expired: 代金券已过期。
       successfully_applied: 代金券应用成功。
+      successfully_applied_balance_topup: 代金券已应用！您的账户已充值 %amount% %currency%。新余额：%newBalance% %currency%。
+      successfully_applied_server_discount: 代金券已应用！%value%%折扣将应用于您的服务器购买。
+      successfully_applied_payment_discount: 代金券已应用！%value%%折扣将应用于您的付款。
       max_global_uses_reached: 已达到代金券最大使用次数。
       already_used: 代金券已被使用。
       only_for_new_accounts: 代金券仅限新账户使用。
@@ -2023,6 +2046,18 @@ pteroca:
         twig_dynamic_include: 检测到带变量的动态包含
         dangerous_file: 检测到可执行文件
         invalid_asset_type: 检测到异常资产文件类型
+  license:
+    file_blacklisted: "此文件已被列入黑名单：%reason%"
+    invalid_license: "许可证验证失败：%error%"
+    license_required: "此插件需要许可证密钥。请在启用前在插件设置中输入。"
+    theme_license_required: "此主题需要许可证密钥。请在激活前在主题设置中输入。"
+    api_unavailable_warning: "Marketplace许可证API当前不可用。在不进行许可证验证的情况下继续。"
+    theme_blacklisted: "此主题已被列入黑名单，无法激活：%reason%"
+    license_key_label: "许可证密钥"
+    license_key_placeholder: "XXXX-XXXX-XXXX-XXXX"
+    license_key_hint: "输入您从marketplace.pteroca.com购买的许可证密钥"
+    cron_plugin_disabled: "插件 %name% 已被自动禁用：许可证验证失败（%error%）。"
+    cron_theme_reset: "主题 %name% 已被停用：许可证验证失败（%error%）。"
   marketplace:
     browser_title: 市场
     free: 免费

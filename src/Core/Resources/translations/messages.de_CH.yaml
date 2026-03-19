@@ -14,6 +14,7 @@ pteroca:
     back: 'Zurück zum Panel'
     email_not_verified: 'Ihre E-Mail-Adresse wurde noch nicht verifiziert. Bitte überprüfen Sie Ihren Posteingang.'
     pterodactyl_error: 'Fehler bei der Verbindung zur Pterodactyl API.'
+    pterodactyl_account_not_synchronized: 'Ihr Konto ist nicht ordnungsgemäss mit dem Spielserver-Panel synchronisiert. Einige Funktionen funktionieren möglicherweise nicht korrekt. Bitte kontaktieren Sie den Administrator.'
     dont_have_permission: 'Sie haben keine Berechtigung, um diese Aktion durchzuführen.'
     experimental_feature: 'Diese Funktion ist experimentell und funktioniert möglicherweise nicht korrekt.'
     or_resend_verification_email: 'oder klicken Sie hier, um die Bestätigungs-E-Mail erneut zu senden.'
@@ -246,6 +247,8 @@ pteroca:
     discount_hint: 'Der Rabatt wird nur auf den ersten Abrechnungszyklus angewendet'
     product_order_details: 'Produktdetails und Bestelloptionen'
     total: Gesamt
+    setup_fee: 'Einrichtungsgebühr'
+    includes_setup_fee: 'Enthält %setupFee% %currency% einmalige Einrichtungsgebühr'
     slot: Slot
     slots: Slots
     processing: Verarbeitung...
@@ -260,6 +263,7 @@ pteroca:
     not_enough_funds: 'Sie haben nicht genug Guthaben auf Ihrem Konto.'
     successful_purchase: 'Der Server wurde erfolgreich gekauft.'
     error_during_creating_server: 'Fehler beim Erstellen des Servers'
+    pterodactyl_account_not_synchronized: 'Ihr Konto ist nicht mit dem Spielserver-Panel synchronisiert. Bitte kontaktieren Sie den Administrator, um dieses Problem zu beheben, bevor Sie einen Server bestellen.'
     no_categories: 'Es gibt noch keine Kategorien.'
     no_products: 'Es gibt noch keine Produkte.'
     price_not_found: 'Preis nicht gefunden'
@@ -304,6 +308,8 @@ pteroca:
     description: 'Konfigurieren Sie Ihren Server und fahren Sie mit der Zahlung fort'
     user_required_variables_title: 'Erforderliche Konfiguration'
     user_required_variables_description: 'Bitte geben Sie die erforderlichen Werte für die ausgewählte Serversoftware an'
+    setup_fee: 'Einrichtungsgebühr'
+    setup_fee_one_time: 'einmalig'
   cart_topup:
     title: 'Konto aufladen'
     order: Bestellung
@@ -412,6 +418,8 @@ pteroca:
     data_updated_successfully: 'Daten wurden erfolgreich aktualisiert.'
     data_update_error: 'Beim Aktualisieren der Daten ist ein Fehler aufgetreten.'
     server_name_required: 'Servername ist erforderlich.'
+    server_name_too_long: 'Der Servername darf {{ limit }} Zeichen nicht überschreiten.'
+    enter_server_name: 'Servernamen eingeben'
     are_you_sure: 'Sind Sie sicher, dass Sie dies tun wollen?'
     suspended_expired_hint: 'Dieser Server wurde am {{ expireDate }} gesperrt, da er nicht erneuert wurde. Um den Server wiederherzustellen, erneuern Sie ihn auf der Registerkarte Konfiguration.'
     suspended_hint: 'Dieser Server wurde gesperrt.'
@@ -432,6 +440,7 @@ pteroca:
     data_validation_error: 'Fehler bei der Validierung. Bitte überprüfen Sie, ob alle Regeln erfüllt sind.'
     enable_auto_renewal: 'Aktiviere automatische Verlängerung für diesen Server'
     auto_renewal_tooltip: 'Wenn aktiviert, wird der Server automatisch für den ausgewählten Zeitraum erneuert. Die Zahlung wird von Ihrem Konto ausgeführt.'
+    connection_error: 'Es konnte keine Verbindung zum Spielserver-Panel hergestellt werden. Bitte versuchen Sie es später erneut oder kontaktieren Sie den Administrator.'
     backups: Backups
     network: Netzwerk
     no_backups: 'Noch keine Backups vorhanden'
@@ -839,6 +848,8 @@ pteroca:
       price_dynamic_only_one_plan: 'Es kann nur ein dynamischer Planpreis festgelegt werden.'
       price_slot_plan: 'Slot-Plan Preis'
       price_slot_plan_hint: 'Preis pro Slot. Nach dem Setzen verknüpfen Sie die Variable für maximale Spieler in Produktverbindungen für jedes Egg.'
+      setup_fee: 'Einrichtungsgebühr'
+      setup_fee_hint: 'Einmalige Einrichtungsgebühr, die nur beim ersten Kauf erhoben wird. Leer lassen, um zu deaktivieren. Diese Gebühr wird nicht durch Gutscheinrabatte beeinflusst.'
       period: Zeitraum
       unit: Einheit
       days: Tage
@@ -992,6 +1003,11 @@ pteroca:
       warning: Warnung
       cancel: Abbrechen
       close: Schließen
+      version_mismatch_title: 'Versionskompatibilitätswarnung'
+      version_mismatch_message: 'Dieses Plugin wurde für PteroCA <strong>%plugin_version%</strong> erstellt, aber Sie verwenden PteroCA <strong>%current_version%</strong>. Zwischen diesen Versionen wurden möglicherweise bahnbrechende Änderungen eingeführt, die die Plugin-Funktionalität beeinträchtigen könnten.'
+      version_mismatch_risk: 'Das Aktivieren dieses Plugins geschieht auf eigene Gefahr. Es kann zu Fehlern oder unerwartetem Verhalten führen.'
+      enable_anyway: 'Trotzdem aktivieren'
+      version_mismatch_upload_skipped: 'Plugin "%s" v%s wurde erfolgreich hochgeladen, aber die automatische Aktivierung wurde aufgrund einer Versionskompatibilitätsabweichung übersprungen. Bitte aktivieren Sie es manuell aus der Plugin-Liste, nachdem Sie die Kompatibilitätswarnung überprüft haben.'
     theme:
       theme_management_description: 'Themes für verschiedene Kontexte verwalten und konfigurieren'
       appearance_settings: Darstellungseinstellungen
@@ -1129,7 +1145,9 @@ pteroca:
       email_theme:
         help: 'Theme für E-Mail-Vorlagen. Steuert die Gestaltung von Benachrichtigungs-, Registrierungs- und Kaufe-Mails.'
       hints:
-        site_logo: 'Eigenes Logo für Dashboard und Anmeldeseiten. PNG, JPG oder SVG hochladen. Standard wenn leer.'
+        site_logo: 'Standard-Logo für das Panel (Admin-Dashboard, Anmeldeseiten). Wird auch als Fallback für Landingpage und E-Mails verwendet, wenn deren spezifische Logos nicht gesetzt sind. PNG, JPG oder SVG hochladen.'
+        site_landing_logo: 'Benutzerdefiniertes Logo für die Landingpage. PNG, JPG oder SVG hochladen. Greift auf das Panel-Logo zurück, wenn leer.'
+        site_email_logo: 'Benutzerdefiniertes Logo für E-Mails. PNG, JPG oder SVG hochladen. Greift auf das Panel-Logo zurück, wenn leer.'
         site_url: 'Basis-URL des Panels (z.B. https://panel.example.com). Verwendet in E-Mails, SSO und Weiterleitungen.'
         site_title: 'Panel-Name in Browser-Tabs, Kopfzeilen und E-Mails. Ihre Marke für alle Nutzer sichtbar.'
         site_locale: 'Standardsprache für die Benutzeroberfläche. Beeinflusst alle Menüeinträge, Labels und Systemmeldungen.'
@@ -1184,6 +1202,8 @@ pteroca:
         telemetry_consent: 'Erlaube das Senden anonymer Nutzungsdaten, um PteroCA zu verbessern. Es werden nur Installationsereignisse und Fehler verfolgt. Keine persönlichen Daten, API-Schlüssel oder URLs werden gesammelt.'
         custom_head_scripts_landing: 'Benutzerdefinierter HTML/JavaScript-Code, der in den <head>-Bereich der Landingpage eingefügt wird. Verwenden Sie diesen für Analytics (Google Analytics, Meta Pixel), benutzerdefinierte Schriftarten oder Tracking-Skripte. WARNUNG: Fügen Sie nur Skripte aus vertrauenswürdigen Quellen hinzu, um XSS-Angriffe zu verhindern.'
         custom_head_scripts_panel: 'Benutzerdefinierter HTML/JavaScript-Code, der in den <head>-Bereich des Panels (Dashboard, Admin) eingefügt wird. Verwenden Sie diesen für interne Analytics, Monitoring-Tools oder benutzerdefinierte Integrationen. WARNUNG: Fügen Sie nur Skripte aus vertrauenswürdigen Quellen hinzu, um XSS-Angriffe zu verhindern.'
+        avatar_max_size: 'Maximale Dateigröße für Benutzer-Avatar-Uploads (z.B. 2M, 500K, 5M). Verwendet das Symfony-Grössenformat.'
+        avatar_allowed_extensions: 'Erlaubte MIME-Typen für Avatar-Uploads, durch Kommas getrennt (z.B. image/jpeg, image/png, image/webp).'
         panel_theme: 'Theme für das Benutzerpanel (Dashboard, Server, Shop). Steuert das Aussehen aller Admin- und benutzerseitigen Seiten.'
         landing_theme: 'Theme für die Landingpage (Homepage für Besucher). Wird nicht angemeldeten Benutzern auf der öffentlichen Website angezeigt.'
         email_theme: 'Theme für E-Mail-Vorlagen. Steuert die Gestaltung von Benachrichtigungs-, Registrierungs- und Kaufe-Mails.'
@@ -1471,6 +1491,9 @@ pteroca:
       not_found: 'Gutschein nicht gefunden.'
       expired: 'Der Gutschein ist abgelaufen.'
       successfully_applied: 'Gutschein erfolgreich eingelöst.'
+      successfully_applied_balance_topup: 'Gutschein eingelöst! Ihr Konto wurde um %amount% %currency% aufgeladen. Neues Guthaben: %newBalance% %currency%.'
+      successfully_applied_server_discount: 'Gutschein eingelöst! %value%% Rabatt wird auf Ihren Serverkauf angewendet.'
+      successfully_applied_payment_discount: 'Gutschein eingelöst! %value%% Rabatt wird auf Ihre Zahlung angewendet.'
       max_global_uses_reached: 'Maximale Anzahl globaler Verwendungen erreicht.'
       already_used: 'Der Gutschein wurde bereits verwendet.'
       only_for_new_accounts: 'Der Gutschein ist nur für neue Konten gültig.'
@@ -2003,6 +2026,18 @@ pteroca:
         twig_dynamic_include: 'Dynamisches Include mit Variable erkannt'
         dangerous_file: 'Ausführbare Datei erkannt'
         invalid_asset_type: 'Ungewöhnlicher Asset-Dateityp erkannt'
+  license:
+    file_blacklisted: "Diese Datei wurde auf die Blacklist gesetzt: %reason%"
+    invalid_license: "Lizenzverifizierung fehlgeschlagen: %error%"
+    license_required: "Dieses Plugin benötigt einen Lizenzschlüssel. Bitte geben Sie ihn vor der Aktivierung in den Plugin-Einstellungen ein."
+    theme_license_required: "Dieses Theme benötigt einen Lizenzschlüssel. Bitte geben Sie ihn vor der Aktivierung in den Theme-Einstellungen ein."
+    api_unavailable_warning: "Marketplace-Lizenz-API ist derzeit nicht verfügbar. Fortfahren ohne Lizenzverifizierung."
+    theme_blacklisted: "Dieses Theme wurde auf die Blacklist gesetzt und kann nicht aktiviert werden: %reason%"
+    license_key_label: "Lizenzschlüssel"
+    license_key_placeholder: "XXXX-XXXX-XXXX-XXXX"
+    license_key_hint: "Geben Sie den Lizenzschlüssel aus Ihrem marketplace.pteroca.com-Kauf ein"
+    cron_plugin_disabled: "Plugin %name% wurde automatisch deaktiviert: Lizenzverifizierung fehlgeschlagen (%error%)."
+    cron_theme_reset: "Theme %name% wurde deaktiviert: Lizenzverifizierung fehlgeschlagen (%error%)."
   marketplace:
     browser_title: 'Marktplatz'
     free: 'Kostenlos'

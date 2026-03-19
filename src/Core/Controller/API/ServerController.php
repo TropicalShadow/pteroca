@@ -2,6 +2,7 @@
 
 namespace App\Core\Controller\API;
 
+use App\Core\Attribute\RequiresVerifiedEmail;
 use App\Core\Enum\ServerPermissionEnum;
 use App\Core\Event\Server\ServerDetailsLoadedEvent;
 use App\Core\Event\Server\ServerDetailsRequestedEvent;
@@ -10,7 +11,7 @@ use App\Core\Event\Server\ServerWebsocketTokenRequestedEvent;
 use App\Core\Repository\ServerRepository;
 use App\Core\Service\Event\EventContextService;
 use App\Core\Service\Pterodactyl\PterodactylApplicationService;
-use App\Core\Service\Pterodactyl\ServerEulaService;
+use App\Core\Service\Server\ServerEulaService;
 use App\Core\Service\Server\ServerService;
 use App\Core\Service\Server\ServerWebsocketService;
 use App\Core\Trait\InternalServerApiTrait;
@@ -119,6 +120,7 @@ class ServerController extends APIAbstractController
         return new JsonResponse($websocket->toArray());
     }
 
+    #[RequiresVerifiedEmail]
     #[Route('/panel/api/server/{id}/accept-eula', name: 'panel_server_accept_eula', methods: ['POST'])]
     public function acceptEula(int $id): JsonResponse
     {
